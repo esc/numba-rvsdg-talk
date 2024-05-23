@@ -12,8 +12,8 @@ optimizations when compiled to low-level machine code with Numba. Additionally,
 this is a first step to representing Python programs as Regionalized Value
 State Dependence Graphs (RVSDGs) which is expected to unlock even more advanced
 compiler optimizations at the Intermediary Representation (IR) level. The talk
-will cover an introduction to the theory  SCFGs and RVSDG and demonstrate how
-programs can be transformed with hands-on examples.
+will cover an introduction to the theory of SCFGs and RVSDG and demonstrate how
+programs are transformed with hands-on Python examples.
 
 
 Description
@@ -27,40 +27,47 @@ lack of a better term -- "spaghetti". This in turn, leads to compiler
 optimization steps not being leveraged and as a result a compiler may be unable
 to generate an optimal low-level representation of the program. A recent
 enhancement is the concept of the Structured Control Flow Graph (SCFG). In this
-extension to CFGs all blocks are part of special Regions within the SCFG. The
+extension to CFGs all blocks are part of special regions within the SCFG. The
 three possible region shapes are: linear, branch and loop. A linear region is
 simply a linear sequence of instructions. A Branch region is a shape where the
 control flow is split symmetrically and joined again. And lastly, a loop region
 is a subgraph with a single backedge from the regions exiting latch. These
-shapes effectively describe all possible control flow patterns in a program and
-offer significantly more chances for a compiler to apply transformations and
-optimizations.
+shapes effectively describe all possible control flow patterns of a computer
+program and the existing structure offers significantly more chances for a
+compiler to apply transformations and optimizations, which in turn may lead to
+significant performance improvements.
 
 The Python package being presented is capable of constructing a CFG from Python
 source code input in the form of an Abstract Syntax Tree (AST). Furthermore the
 package can then apply two algorithmic steps known as Loop Restructuring (LR)
-and Branch Restructuring (BR) which convert the constructed CFG into an SCFG.
-Lastly, the package is able to re-synthesize a regularized Python program from
-the SCFG representation which is behaviourally equivalent to the original but
-is potentially easier for a compiler to work with. Essentially the package
-implements a type of regularization at the source code level where both input
-and output are runnable Python programs.
+and Branch Restructuring (BR) (as described in [1]) which convert the
+constructed CFG into an SCFG. Lastly, the package is able to re-synthesize a
+regularized Python program from the SCFG representation which is behaviourally
+equivalent to the original but is potentially easier for a compiler to work
+with. Essentially the package implements a type of regularization at the source
+code level where both input and output are runnable Python programs.
 
-Going beyond SCFGs, a novel Intermediary Representation called Regionalized
-Value State Dependence Graphs (RVSDG) have been proposed []. Compared to CFGs
-and SCFGs which are control-flow centric IRs, RVSDGs are data-flow centric IRs.
-This means that a number of common compiler transforms can be performed when
-the program has been converted to the RVSDGs representation w/o having to
-reconstruct invariant properties post transformation. Also, this
-representation unlocks a number of novel compiler transforms as data-flow
-through the program is explicitly available. Transforms will be algorithmically
-simpler, more elegant and computationally less expensive. Importantly the
-construction of the SCFG representation for the input program correctly is a
-necessary first step to constructing the full RVSDG and has significant merit
-in it's own right.
+Going beyond SCFGs, a novel Intermediary Representation (IR) called
+Regionalized Value State Dependence Graphs (RVSDG) have been proposed [2].
+Compared to CFGs and SCFGs which are control-flow centric IRs, RVSDGs are
+data-flow centric IRs.  This means that a number of common compiler transforms
+can be performed when the program has been converted to the RVSDGs
+representation w/o having to reconstruct invariant properties post
+transformation. Also, this representation unlocks a number of novel compiler
+transforms as data-flow through the program is explicitly available. Transforms
+will be algorithmically simpler, more elegant and computationally less
+expensive. Importantly, the construction of the SCFG representation for the
+input program correctly is a necessary first step to constructing the full
+RVSDG and has significant merit in it's own right.
 
 This package available on PyPi as: https://pypi.org/project/numba-rvsdg/
 
 References:
 
-[]
+[1] Helge Bahmann, Nico Reissmann, Magnus Jahre, and Jan Christian Meyer.
+Perfect reconstructability of control flow from demand dependence graphs. ACM
+Transactions on Architecture and Code Optimization, 11(4):66:1–66:25, 2015.
+
+[2] Nico Reissmann, Jan Christian Meyer, Helge Bahmann, and Magnus Själander.
+RVSDG: An Intermediate Representation for Optimizing Compilers. Association for
+Computing Machinery (ACM) 19(6):1-28, 2020 
