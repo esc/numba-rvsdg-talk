@@ -6,14 +6,20 @@ Abstract
 
 In this talk I will present original research and working code to regularize
 Python programs using a Structured Control Flow Graph (SCFG). This is a novel
-approach to rewriting Python programs at the source level such that the
-resulting (regularized) program is potentially more amenable to LLVM compiler
-optimizations when compiled to low-level machine code with Numba. Additionally,
-this is a first step to representing Python programs as Regionalized Value
-State Dependence Graphs (RVSDGs) which is expected to unlock even more advanced
-compiler optimizations at the Intermediary Representation (IR) level. The talk
-will cover an introduction to the theory of SCFGs and RVSDG and demonstrate how
-programs are transformed with hands-on Python examples.
+approach to rewriting programs at the source level such that the resulting
+(regularized) program is potentially more amenable to compiler optimizations
+when compiled to low-level machine code, for example when using Numba[1] to
+compile Python.  Effectively the SCFG representation of a program is simpler to
+analyze and thus significantly easier to optimize because it is more detailed
+as the higher order semantic information regarding the program structure is
+explicitly included. This can be of great benefit to many scientific
+applications such as High Performance Computing (HPC) Additionally the SCFG
+format is a first step to representing Python programs as Regionalized Value
+State Dependence Graphs (RVSDGs). The is another novel program representation
+which is expected to unlock even more advanced compiler optimizations at the
+Intermediary Representation (IR) level. The talk will cover an introduction to
+the theory of SCFGs and RVSDG and demonstrate how programs are transformed with
+hands-on Python examples.
 
 
 Description
@@ -40,7 +46,7 @@ significant performance improvements.
 The Python package being presented is capable of constructing a CFG from Python
 source code input in the form of an Abstract Syntax Tree (AST). Furthermore the
 package can then apply two algorithmic steps known as Loop Restructuring (LR)
-and Branch Restructuring (BR) (as described in [1]) which convert the
+and Branch Restructuring (BR) (as described in [2]) which convert the
 constructed CFG into an SCFG. Lastly, the package is able to re-synthesize a
 regularized Python program from the SCFG representation which is behaviourally
 equivalent to the original but is potentially easier for a compiler to work
@@ -48,11 +54,11 @@ with. Essentially the package implements a type of regularization at the source
 code level where both input and output are runnable Python programs.
 
 Going beyond SCFGs, a novel Intermediary Representation (IR) called
-Regionalized Value State Dependence Graphs (RVSDG) have been proposed [2].
+Regionalized Value State Dependence Graphs (RVSDG) have been proposed [3].
 Compared to CFGs and SCFGs which are control-flow centric IRs, RVSDGs are
 data-flow centric IRs.  This means that a number of common compiler transforms
 can be performed when the program has been converted to the RVSDGs
-representation w/o having to reconstruct invariant properties post
+representation without having to reconstruct invariant properties post
 transformation. Also, this representation unlocks a number of novel compiler
 transforms as data-flow through the program is explicitly available. Transforms
 will be algorithmically simpler, more elegant and computationally less
@@ -60,14 +66,19 @@ expensive. Importantly, the construction of the SCFG representation for the
 input program correctly is a necessary first step to constructing the full
 RVSDG and has significant merit in it's own right.
 
-This package available on PyPi as: https://pypi.org/project/numba-rvsdg/
+Sources on GitHub as: https://github.com/numba/numba-rvsdg
+Package on PyPi as: https://pypi.org/project/numba-rvsdg/
 
 References:
 
-[1] Helge Bahmann, Nico Reissmann, Magnus Jahre, and Jan Christian Meyer.
+[1] Siu Kwan Lam, Antoine Pitrou and Stanly Seibert. Numba: A LLVM-based Python
+JIT Compiler. Proc. Second Workshop on the LLVM Compiler Infrastructure in HPC,
+pp. 1-6, ACM. 2015
+
+[2] Helge Bahmann, Nico Reissmann, Magnus Jahre, and Jan Christian Meyer.
 Perfect reconstructability of control flow from demand dependence graphs. ACM
 Transactions on Architecture and Code Optimization, 11(4):66:1–66:25, 2015.
 
-[2] Nico Reissmann, Jan Christian Meyer, Helge Bahmann, and Magnus Själander.
+[3] Nico Reissmann, Jan Christian Meyer, Helge Bahmann, and Magnus Själander.
 RVSDG: An Intermediate Representation for Optimizing Compilers. Association for
 Computing Machinery (ACM) 19(6):1-28, 2020 
