@@ -85,3 +85,24 @@ Transactions on Architecture and Code Optimization, 11(4):66:1–66:25, 2015.
 [3] Nico Reissmann, Jan Christian Meyer, Helge Bahmann, and Magnus Själander.
 RVSDG: An Intermediate Representation for Optimizing Compilers. Association for
 Computing Machinery (ACM) 19(6):1-28, 2020 
+
+Speaker
+-------
+
+Valentin 'esc' Haenel is a long-time "Python for Data" user and developer who
+still remembers hearing Travis Oliphant's NumPy keynote at the EuroScipy 2008.
+This was during a time where he first became aware of the nascent scientific
+Python stack. He started using Python for simple modeling of spiking neurons
+and evaluation of data from perception experiments during his Masters degree in
+computational neuroscience.  Since then he has been active as a contributor
+across more than 100 open source projects. For example, within the Blosc
+ecosystem where he has contributed to Bcolz, Python-Blosc and Bloscpack.
+Furthermore, he has acquired significant experience as a Git trainer and
+consultant and had published the first German language book about the topic in
+2011.  In 2014 and 2015 he helped kickstart the PyData Berlin community
+alongside a few other volunteers and co-organized the first two editions of the
+PyData Berlin Conference. Since 2019 he works for Anaconda as a senior software
+engineer on the Numba project. His areas of contribution for the project so far
+have been social architecture, release management, mutable datastructures and
+recently, the compiler frontend.
+
