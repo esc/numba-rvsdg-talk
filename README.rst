@@ -1,8 +1,11 @@
-Regularizing Python using Structured Control Flow
-=================================================
+================
+Numba-RVSDG Talk
+================
+
+Title: Regularizing Python using Structured Control Flow.
 
 Abstract
---------
+========
 
 In this talk we will present applied research and working code to regularize
 Python programs using a Structured Control Flow Graph (SCFG). This is a novel
@@ -24,9 +27,8 @@ will start with simple Python programs containing control-flow constructs and
 then show both the SCFG representation and the resulting regularized result to
 illustrate the transformations.
 
-
 Description
------------
+===========
 
 The Control Flow Graph (CFG) is a well known and established concept in
 computer science and used as part of the compilation or interpretation step of
@@ -86,8 +88,8 @@ Transactions on Architecture and Code Optimization, 11(4):66:1–66:25, 2015.
 RVSDG: An Intermediate Representation for Optimizing Compilers. Association for
 Computing Machinery (ACM) 19(6):1-28, 2020 
 
-Speaker
--------
+Speaker-Bio
+===========
 
 Valentin 'esc' Haenel is a long-time "Python for Data" user and developer who
 still remembers hearing Travis Oliphant's NumPy keynote at the EuroScipy 2008.
@@ -106,3 +108,38 @@ engineer on the Numba project. His areas of contribution for the project so far
 have been social architecture, release management, mutable datastructures and
 recently, the compiler frontend.
 
+Past Events
+===========
+
+* EuroScipy24
+
+Dependencies
+============
+
+The talk is made with:
+
+* `wiki2beamer <http://wiki2beamer.sourceforge.net/>`_ (included in repository)
+* `LaTeX Beamer <https://bitbucket.org/rivanvx/beamer/wiki/Home>`_
+* `Pygments <http://pygments.org/>`_
+* `Minted <http://code.google.com/p/minted/>`_ (included in repository)
+* `ccBeamer <http://blog.hartwork.org/?p=52>`_ (included in repository)
+
+Licensing
+=========
+
+Content
+-------
+
+All Content is...
+
+* Copyright 2024 Valentin Haenel <valentin@haenel.co>
+* Licensed under the terms of `Attribution-ShareAlike 3.0 Unported  (CC BY-SA 3.0)  <http://creativecommons.org/licenses/by-sa/3.0/>`_
+
+Included Dependencies
+---------------------
+
+The following dependencies are shipped with the sources:
+
+* Wiki2beamer (file: ``wiki2beamer``) is licensed under Gnu Public Licence v2
+* Minted (file: ``minted.sty``) is licensed under LaTeX Project Public License  version 1.3
+* ccBeamer (directory: ``creative_commons/``) is licensed under Creative Commons Attribution-ShareAlike 3.0
