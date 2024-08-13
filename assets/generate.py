@@ -11,7 +11,7 @@ from numba_rvsdg.rendering.rendering import SCFGRenderer
 
 sys.path.append("./source")
 
-names = ("function", "branch", "multi_return")
+names = ("function", "branch", "multi_return", "while_loop")
 
 
 def exec_import(name):
