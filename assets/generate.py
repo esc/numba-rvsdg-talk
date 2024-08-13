@@ -11,7 +11,12 @@ from numba_rvsdg.rendering.rendering import SCFGRenderer
 
 sys.path.append("./source")
 
-names = ("function", "branch", "multi_return", "while_loop")
+names = ("function",
+         "branch",
+         "multi_return",
+         "while_loop",
+         "early_exit",
+         "for_loop")
 
 
 def exec_import(name):
@@ -21,6 +26,7 @@ def exec_import(name):
 
 
 def process_example(name, func):
+    print(f"Processing: '{name}'...")
     scfg = AST2SCFGTransformer(func).transform_to_SCFG()
     g = SCFGRenderer(scfg).g
     g.render(outfile=f"images/{name}-cfg.pdf")
@@ -38,5 +44,10 @@ def process_example(name, func):
         f.write("\n")
 
 
-for n in names:
-    process_example(n, exec_import(n))
+if __name__ == "__main__":
+    if len(sys.argv) == 2:
+        name = sys.argv[1]
+        process_example(name, exec_import(name))
+    else:
+        for n in names:
+            process_example(n, exec_import(n))

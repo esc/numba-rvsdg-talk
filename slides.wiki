@@ -6,8 +6,10 @@
 
 ==== @whoami@ ====
 
+* Val Haenel ("val" like @let val =@)
+* \href{https://github.com/esc}{https://github.com/esc}
 * Compiler Engineer at Anaconda
-* Working on Numba full-time
+* Working on \href{https://numba.pydata.org/}{Numba} full-time
 * Doing this for over 5 years
 
 ==== Introduction ====
@@ -24,11 +26,14 @@
 
 ==== Definitions ====
 
-* AST:  Abstract Syntax Tree
-* IR: Intermediary Representation
-* CFG: Control Flow Graph
-* SCFG:  Structured Control Flow Graph
-* RVSDG: Regionalized Value State Dependence Graph
+* AST ==>  Abstract Syntax Tree
+* IR ==> Intermediary Representation
+* CFG ==> Control Flow Graph, directed and cyclic
+* Closed CFG ==> CFG with eaxctly one entry and one exit node
+** Entry node ==> No incoming edges
+** Exit node ==> No outgoing edges
+* SCFG ==>  Structured Control Flow Graph
+* RVSDG ==> Regionalized Value State Dependence Graph
 
 ==  Pipeline ==
 
@@ -42,8 +47,21 @@
 * Convert to AST
 * Convert AST to CFG
 * Restructure to SCFG
-* Synthesize Python source code
+* Synthesize Python source code [implemented]
+* Convert to RVSDG [partially implemented]
 * Profit! [this is what copilot suggested]
+
+==== SCFG Restructuring ====
+
+* CFG --> SCFG
+* Algorithm based on \href{https://dl.acm.org/doi/pdf/10.1145/2693261}{Bahmann2015}
+* Pre-processing for conversion to RVSDG
+* Useful in it's own right
+* Three stages:
+** @CLOSE CFG@
+** @LOOP RESTRUCTURE@
+** @BRANCH RESTRUCTURE@
+* --> Identifies loop and branch regions
 
 ==== Plans ====
 
@@ -68,58 +86,165 @@ In [4]: scfg.view()
 ==== CFG ====
 
 <[center]
-    <<<assets/images/function-cfg.pdf, scale=1.0>>>
+    <<<assets/images/function-cfg.pdf, height=0.85\textheight>>>
 [center]>
 
 == Examples ==
-
-=== Branch ===
 
 ==== Outline ====
 
 \tableofcontents[currentsection]
 
+=== Branch ===
+
+==== Outline ====
+
+\tableofcontents[currentsubsection]
+
 ==== Branch ====[containsverbatim]
 
-\pyfile{assets/source/branch.py}
+* A simple example
+
+--.5cm--
+
+<[center]
+    \pyfile{assets/source/branch.py}
+[center]>
 
 ==== CFG ====
 
+* CFG is already closed
+
 <[center]
-    <<<assets/images/branch-cfg.pdf, scale=0.4>>>
+    <<<assets/images/branch-cfg.pdf, height=0.85\textheight>>>
 [center]>
 
 ==== SCFG ====
 
+* Only branch regions are identified
+
 <[center]
-    <<<assets/images/branch-scfg.pdf, scale=0.4>>>
+    <<<assets/images/branch-scfg.pdf, height=0.85\textheight>>>
 [center]>
 
 === Multi Return ===
 
 ==== Outline ====
 
-\tableofcontents[currentsection]
+\tableofcontents[currentsubsection]
 
 ==== Multi Return ====[containsverbatim]
+
+* This example has two @return@ statements
+
+--.5cm--
 
 \pyfile{assets/source/multi_return.py}
 
 ==== CFG ====
 
+* The CFG is not closed, two exit nodes
+
 <[center]
-    <<<assets/images/multi_return-cfg.pdf, scale=0.4>>>
+    <<<assets/images/multi_return-cfg.pdf, height=0.85\textheight>>>
+[center]>
+
+==== SCFG ====
+
+* The @CLOSE CFG@ algorithm will insert an exit node
+
+<[center]
+    <<<assets/images/multi_return-scfg.pdf, height=0.85\textheight>>>
+[center]>
+
+==== Transformed ====[containsverbatim]
+
+* Finally, we can synthesize Python
+* The transformed function only has a single exit node
+* It is now closed
+
+--.5cm--
+
+\pyfile{assets/transformed/multi_return.py}
+
+=== While Loop ===
+
+==== Outline ====
+
+\tableofcontents[currentsubsection]
+
+==== While Loop ====[containsverbatim]
+
+
+\pyfile{assets/source/while_loop.py}
+
+==== CFG ====
+
+<[center]
+    <<<assets/images/while_loop-cfg.pdf, height=0.85\textheight>>>
 [center]>
 
 ==== SCFG ====
 
 <[center]
-    <<<assets/images/multi_return-scfg.pdf, scale=0.4>>>
+    <<<assets/images/while_loop-scfg.pdf, height=0.85\textheight>>>
 [center]>
 
 ==== Transformed ====[containsverbatim]
 
-\pyfile{assets/transformed/multi_return.py}
+\pyfile{assets/transformed/while_loop.py}
+
+=== Early Exit ===
+
+==== Outline ====
+
+\tableofcontents[currentsubsection]
+
+==== Early Exit ====[containsverbatim]
+
+\pyfile{assets/source/early_exit.py}
+
+==== CFG ====
+
+<[center]
+    <<<assets/images/early_exit-cfg.pdf, height=0.85\textheight>>>
+[center]>
+
+==== SCFG ====
+
+<[center]
+    <<<assets/images/early_exit-scfg.pdf, height=0.85\textheight>>>
+[center]>
+
+==== Transformed ====[containsverbatim]
+
+\pyfile{assets/transformed/early_exit.py}
+
+=== For Loop ===
+
+==== Outline ====
+
+\tableofcontents[currentsubsection]
+
+==== For Loop ====[containsverbatim]
+
+\pyfile{assets/source/for_loop.py}
+
+==== CFG ====
+
+<[center]
+    <<<assets/images/for_loop-cfg.pdf, height=0.85\textheight>>>
+[center]>
+
+==== SCFG ====
+
+<[center]
+    <<<assets/images/for_loop-scfg.pdf, height=0.85\textheight >>>
+[center]>
+
+==== Transformed ====[containsverbatim]
+
+\pyfile{assets/transformed/for_loop.py}
 
 
 
