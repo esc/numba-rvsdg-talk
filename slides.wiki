@@ -1,31 +1,99 @@
-== Section 1 ==
+== Introduction ==
 
 ==== Outline ====
 
 \tableofcontents[currentsection]
 
-==== slide 1 ====
+==== @whoami@ ====
 
-* bullet 1
-* bullet 2
-* bullet 3
+* Compiler Engineer at Anaconda
+* Working on Numba full-time
+* Doing this for over 5 years
 
-==  Section 2 ==
+==== Introduction ====
+
+* Using a Structured Control Flow Graph (SCFG)
+* Regularize Python, identify branches and loops
+* Implemented in package \href{https://github.com/numba/numba-rvsdg}{numba-rvsdg}
+
+==== Motivation ====
+
+* Make code more ammeanable for Python compilers
+* First step towards an source frontend for Numba
+* (Numba currently uses bytecode...)
+
+==== Definitions ====
+
+* AST:  Abstract Syntax Tree
+* IR: Intermediary Representation
+* CFG: Control Flow Graph
+* SCFG:  Structured Control Flow Graph
+* RVSDG: Regionalized Value State Dependence Graph
+
+==  Pipeline ==
 
 ==== Outline ====
 
 \tableofcontents[currentsection]
 
-=== Subsection 1 ===
+==== Pipeline ====
 
-==== Outline ====
+* Ingest Python source
+* Convert to AST
+* Convert AST to CFG
+* Restructure to SCFG
+* Synthesize Python source code
+* Profit! [this is what copilot suggested]
 
-\tableofcontents[currentsection,currentsubsection]
+==== Plans ====
 
-==== Image Slide ====
+* Use as source pre-processor for Numba
+* Use as IR for a source frontend for Numba
+* Other use-cases...?
+
+==== Example ====[containsverbatim]
+
+\begin{ipythonconsolecode}
+In [1]: from numba_rvsdg import AST2SCFG
+
+In [2]: def function():
+   ...:     return 1
+   ...:
+
+In [3]: scfg = AST2SCFG(function)
+
+In [4]: scfg.view()
+\end{ipythonconsolecode}
+
+==== CFG ====
 
 <[center]
-    <<<images/python-logo.pdf, scale=0.40>>>
+    <<<images/function.pdf, scale=1.0>>>
+[center]>
+
+== Examples ==
+
+=== Branch ===
+
+==== Outline ====
+
+\tableofcontents[currentsection]
+
+==== Branch ====[containsverbatim]
+
+\begin{pycode}
+def branch(b: int):
+    if b:
+        r = 1
+    else:
+        r = 2
+    return r
+\end{pycode}
+
+====CFG ====
+
+<[center]
+    <<<images/branch-cfg.pdf, scale=0.5>>>
 [center]>
 
 ==== slide 2 ====
