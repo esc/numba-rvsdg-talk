@@ -2,42 +2,41 @@ import ast
 import os
 import sys
 
-from numba_rvsdg.core.datastructures.ast_transforms import AST2SCFGTransformer, SCFG2ASTTransformer, unparse_code
+from numba_rvsdg.core.datastructures.ast_transforms import (
+    AST2SCFGTransformer,
+    SCFG2ASTTransformer,
+    unparse_code,
+)
 from numba_rvsdg.rendering.rendering import SCFGRenderer
 
-sys.path.append('./source')
+sys.path.append("./source")
 
-from function import function
+names = ("function", "branch", "multi_return")
 
-scfg = AST2SCFGTransformer(function).transform_to_SCFG()
-g = SCFGRenderer(scfg).g
-g.render(outfile='images/function-cfg.pdf')
-os.remove('images/function-cfg.gv')
 
-from branch import branch
+def exec_import(name):
+    gl, lo = {}, {}
+    exec(f"from {name} import {name}", gl, lo)
+    return lo[name]
 
-scfg = AST2SCFGTransformer(branch).transform_to_SCFG()
-g = SCFGRenderer(scfg).g
-g.render(outfile='images/branch-cfg.pdf')
-os.remove('images/branch-cfg.gv')
-scfg.restructure()
-g = SCFGRenderer(scfg).g
-g.render(outfile='images/branch-scfg.pdf')
-os.remove('images/branch-scfg.gv')
 
-from multi_return import multi_return
+def process_example(name, func):
+    scfg = AST2SCFGTransformer(func).transform_to_SCFG()
+    g = SCFGRenderer(scfg).g
+    g.render(outfile=f"images/{name}-cfg.pdf")
+    os.remove(f"images/{name}-cfg.gv")
+    scfg.restructure()
+    g = SCFGRenderer(scfg).g
+    g.render(outfile=f"images/{name}-scfg.pdf")
+    os.remove(f"images/{name}-scfg.gv")
+    original_ast = unparse_code(func)[0]
+    transformed_ast = SCFG2ASTTransformer().transform(
+        original=original_ast, scfg=scfg)
+    transformed_source = ast.unparse(transformed_ast)
+    with open(f"transformed/{name}.py", "w") as f:
+        f.write(transformed_source)
+        f.write("\n")
 
-scfg = AST2SCFGTransformer(multi_return).transform_to_SCFG()
-g = SCFGRenderer(scfg).g
-g.render(outfile='images/multi_return-cfg.pdf')
-os.remove('images/multi_return-cfg.gv')
-scfg.restructure()
-g = SCFGRenderer(scfg).g
-g.render(outfile='images/multi_return-scfg.pdf')
-os.remove('images/multi_return-scfg.gv')
-original_ast = unparse_code(multi_return)[0]
-transformed_ast = SCFG2ASTTransformer().transform(original=original_ast, scfg=scfg)
-transformed_source = ast.unparse(transformed_ast)
-with open('transformed/multi_return.py', 'w') as f:
-    f.write(transformed_source)
-    f.write("\n")
+
+for n in names:
+    process_example(n, exec_import(n))

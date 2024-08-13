@@ -103,7 +103,7 @@ In [4]: scfg.view()
 
 ==== Multi Return ====[containsverbatim]
 
-\pyfile{assets/source/branch.py}
+\pyfile{assets/source/multi_return.py}
 
 ==== CFG ====
 
