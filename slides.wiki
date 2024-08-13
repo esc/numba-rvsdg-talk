@@ -68,7 +68,7 @@ In [4]: scfg.view()
 ==== CFG ====
 
 <[center]
-    <<<images/function.pdf, scale=1.0>>>
+    <<<assets/images/function-cfg.pdf, scale=1.0>>>
 [center]>
 
 == Examples ==
@@ -81,20 +81,55 @@ In [4]: scfg.view()
 
 ==== Branch ====[containsverbatim]
 
-\begin{pycode}
-def branch(b: int):
-    if b:
-        r = 1
-    else:
-        r = 2
-    return r
-\end{pycode}
+\pyfile{assets/source/branch.py}
 
-====CFG ====
+==== CFG ====
 
 <[center]
-    <<<images/branch-cfg.pdf, scale=0.5>>>
+    <<<assets/images/branch-cfg.pdf, scale=0.4>>>
 [center]>
+
+==== SCFG ====
+
+<[center]
+    <<<assets/images/branch-scfg.pdf, scale=0.4>>>
+[center]>
+
+=== Multi Return ===
+
+==== Outline ====
+
+\tableofcontents[currentsection]
+
+==== Multi Return ====[containsverbatim]
+
+\pyfile{assets/source/branch.py}
+
+==== CFG ====
+
+<[center]
+    <<<assets/images/multi_return-cfg.pdf, scale=0.4>>>
+[center]>
+
+==== SCFG ====
+
+<[center]
+    <<<assets/images/multi_return-scfg.pdf, scale=0.4>>>
+[center]>
+
+==== Transformed ====[containsverbatim]
+
+\pyfile{assets/transformed/multi_return.py}
+
+
+
+
+
+
+
+
+
+
 
 ==== slide 2 ====
 
