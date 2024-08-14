@@ -28,7 +28,8 @@
 
 * AST ==>  Abstract Syntax Tree
 * IR ==> Intermediary Representation
-* CFG ==> Control Flow Graph, directed and cyclic
+* CFG ==> Control Flow Graph
+* DAG ==> Directed Acyclic Graph
 * Closed CFG ==> CFG with eaxctly one entry and one exit node
 ** Entry node ==> No incoming edges
 ** Exit node ==> No outgoing edges
@@ -57,11 +58,28 @@
 * Algorithm based on \href{https://dl.acm.org/doi/pdf/10.1145/2693261}{Bahmann2015}
 * Pre-processing for conversion to RVSDG
 * Useful in it's own right
+
+==== SCFG Restructuring ====
+
 * Three stages:
 ** @CLOSE CFG@
 ** @LOOP RESTRUCTURE@
 ** @BRANCH RESTRUCTURE@
-* --> Identifies loop and branch regions
+
+==== SCFG Restructuring ====
+
+* Identifies loop and branch regions
+* Loops become closed and tail controlled (do-while) with a single backedge
+* Branch regions are identified as a structure of
+** one head region
+** two or more branch regions
+** one tail region
+
+--.5cm--
+
+* Since backedges are contained within loop regions..
+* --> we can conceal the loop regions
+* --> to obtain a Directed Acyclic Graph (DAG)
 
 ==== Plans ====
 
@@ -175,6 +193,9 @@ In [4]: scfg.view()
 
 ==== While Loop ====[containsverbatim]
 
+* Next up: a simple loop
+
+--.5cm--
 
 \pyfile{assets/source/while_loop.py}
 
@@ -192,6 +213,10 @@ In [4]: scfg.view()
 
 ==== Transformed ====[containsverbatim]
 
+* The transformed variant is as close to a do-while loop as we can get in Python
+
+--.5cm--
+
 \pyfile{assets/transformed/while_loop.py}
 
 === Early Exit ===
@@ -201,6 +226,11 @@ In [4]: scfg.view()
 \tableofcontents[currentsubsection]
 
 ==== Early Exit ====[containsverbatim]
+
+* Let's combine all three stages in this example
+* The loop has an "early exit"
+
+--.5cm--
 
 \pyfile{assets/source/early_exit.py}
 
@@ -218,7 +248,7 @@ In [4]: scfg.view()
 
 ==== Transformed ====[containsverbatim]
 
-\pyfile{assets/transformed/early_exit.py}
+\pythonfile{assets/transformed/early_exit.py}
 
 === For Loop ===
 
@@ -228,9 +258,23 @@ In [4]: scfg.view()
 
 ==== For Loop ====[containsverbatim]
 
+* Python for-loops need to be "de-sugared"
+** --> such that they can be represented using the "blocks and edges" semantics of the CFG formalism
+
+--.2cm--
+
+* Setup the induction variable
+* Setup the iterator
+* Use @next@ to determine when to stop instead of catching the @StopIteration@ exception
+* The induction variable must escape the scope
+
+--.2cm--
+
 \pyfile{assets/source/for_loop.py}
 
 ==== CFG ====
+
+* De-sugaring happens on-the-fly during conversion to CFG
 
 <[center]
     <<<assets/images/for_loop-cfg.pdf, height=0.85\textheight>>>
@@ -244,7 +288,40 @@ In [4]: scfg.view()
 
 ==== Transformed ====[containsverbatim]
 
+* for-loop becomes while loop
+
 \pyfile{assets/transformed/for_loop.py}
+
+
+=== Break and Continue ===
+
+==== Outline ====
+
+\tableofcontents[currentsubsection]
+
+==== Break and Continue ====[containsverbatim]
+
+\pyfile{assets/source/break_and_continue.py}
+
+==== CFG ====
+
+<[center]
+    <<<assets/images/break_and_continue-cfg.pdf, height=0.85\textheight>>>
+[center]>
+
+==== SCFG ====
+
+<[center]
+    <<<assets/images/break_and_continue-scfg.pdf, height=0.85\textheight >>>
+[center]>
+
+==== Transformed ====[containsverbatim]
+
+\inputminted[lastline=21, fontsize=\scriptsize]{python}{assets/transformed/break_and_continue.py}
+
+==== Transformed ====[containsverbatim]
+
+\inputminted[firstline=22, fontsize=\scriptsize]{python}{assets/transformed/break_and_continue.py}
 
 
 

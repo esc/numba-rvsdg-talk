@@ -16,7 +16,8 @@ names = ("function",
          "multi_return",
          "while_loop",
          "early_exit",
-         "for_loop")
+         "for_loop",
+         "break_and_continue")
 
 
 def exec_import(name):
