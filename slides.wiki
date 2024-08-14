@@ -288,7 +288,7 @@ In [4]: scfg.view()
 
 ==== Transformed ====[containsverbatim]
 
-* for-loop becomes while loop
+* for-loop becomes while-loop
 
 \pyfile{assets/transformed/for_loop.py}
 
