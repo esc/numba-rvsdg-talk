@@ -1,4 +1,4 @@
-== Introduction ==
+== Prolog ==
 
 ==== Outline ====
 
@@ -8,15 +8,20 @@
 
 * Val Haenel ("val" like @let val =@)
 * \href{https://github.com/esc}{https://github.com/esc}
-* Compiler Engineer at Anaconda
-* Working on \href{https://numba.pydata.org/}{Numba} full-time
+* Compiler Engineer at \href{https://www.anaconda.com/}{Anaconda}{}
+* Working full-time on \href{https://numba.pydata.org/}{Numba}
+** (the function compiler for numerical Python)
 * Doing this for over 5 years
 
 ==== Introduction ====
 
 * Using a Structured Control Flow Graph (SCFG)
 * Regularize Python, identify branches and loops
+* Branch and loop regions are closed and clearly identified
 * Implemented in package \href{https://github.com/numba/numba-rvsdg}{numba-rvsdg}
+* Two main contributions:
+** --> Application of an academic paper to Python source
+** --> Solution to desugaring Python for-loops
 
 ==== Motivation ====
 
@@ -87,7 +92,17 @@
 * Use as IR for a source frontend for Numba
 * Other use-cases...?
 
+==== RVSDG? ====
+
+* The RVSDG is a data-flow centric IR
+* (CFG and SCFG are control-flow centric)
+* Has various nice properties
+* Partial implementation in Numba, not ready for presentation yet
+* Stay tuned!
+
 ==== Example ====[containsverbatim]
+
+* A simple API
 
 \begin{ipythonconsolecode}
 In [1]: from numba_rvsdg import AST2SCFG
@@ -139,7 +154,8 @@ In [4]: scfg.view()
 
 ==== SCFG ====
 
-* Only branch regions are identified
+* Branch regions are identified
+* No "restructuring required"
 
 <[center]
     <<<assets/images/branch-scfg.pdf, height=0.85\textheight>>>
@@ -169,7 +185,7 @@ In [4]: scfg.view()
 
 ==== SCFG ====
 
-* The @CLOSE CFG@ algorithm will insert an exit node
+* The @CLOSE CFG@ algorithm will restructure to insert an exit node
 
 <[center]
     <<<assets/images/multi_return-scfg.pdf, height=0.85\textheight>>>
@@ -178,7 +194,7 @@ In [4]: scfg.view()
 ==== Transformed ====[containsverbatim]
 
 * Finally, we can synthesize Python
-* The transformed function only has a single exit node
+* The transformed function only has a single @return@
 * It is now closed
 
 --.5cm--
@@ -194,6 +210,7 @@ In [4]: scfg.view()
 ==== While Loop ====[containsverbatim]
 
 * Next up: a simple loop
+* Remember: Loops are closed and tail controlled (do-while) with a single backedge
 
 --.5cm--
 
@@ -229,6 +246,7 @@ In [4]: scfg.view()
 
 * Let's combine all three stages in this example
 * The loop has an "early exit"
+* This may be a problem for compilers, e.g, loop-unrolbecomel
 
 --.5cm--
 
@@ -288,10 +306,7 @@ In [4]: scfg.view()
 
 ==== Transformed ====[containsverbatim]
 
-* for-loop becomes while-loop
-
 \pyfile{assets/transformed/for_loop.py}
-
 
 === Break and Continue ===
 
@@ -300,6 +315,9 @@ In [4]: scfg.view()
 \tableofcontents[currentsubsection]
 
 ==== Break and Continue ====[containsverbatim]
+
+* Both @break@ and @continue@ will be removed
+* (They are just syntactic sugar)
 
 \pyfile{assets/source/break_and_continue.py}
 
@@ -323,104 +341,17 @@ In [4]: scfg.view()
 
 \inputminted[firstline=22, fontsize=\scriptsize]{python}{assets/transformed/break_and_continue.py}
 
-
-
-
-
-
-
-
-
-
-
-==== slide 2 ====
-
-* bullet 1
-* bullet 2
-* bullet 3
-
-=== Subsection 2 ===
+== Epilog ==
 
 ==== Outline ====
 
-\tableofcontents[currentsection,currentsubsection]
+\tableofcontents[currentsection]
 
-==== Block ====
+==== Future Work ====
 
-<[block]{Block Title}
-Block contents
-[block]>
-
-==== Special Symbols ====
-
-* Tilde: \~{}
-* Tilde: \textasciitilde{}
-* Caret: \^{}
-* Hash: \#
-* Braces: \{\}
-* Dollar: \$
-* Double en: -{}-
-* At in Typewriter: {\tt stash@\{0\} }
-* Exclamation mark in alert: \alert{Attention!}
-
-or use: nowiki
-
-==== Correct Escapes  ====
-
-This only works with my patched version of wiki2beamer.
-
-* @HEAD \@ HEAD@
-* Attention\! Attention\!
-
-==== Verbatim ====[fragile]
-
-\begin{verbatim}
-
-wiki2beamer slides.wiki > slides.wiki.tex
-pdflatex slides.tex
-
-\end{verbatim}
-
-[frame]>
-
-==== Verbatim2 ====[containsverbatim]
-
-<[verbatim]
-
-wiki2beamer slides.wiki > slides.wiki.tex
-pdflatex slides.tex
-
-[verbatim]>
-
-==== Verbatim Block ====[containsverbatim]
-
-<[block]{Verbatim Block}
-<[verbatim]
-
-wiki2beamer slides.wiki > slides.wiki.tex
-pdflatex slides.tex
-
-[verbatim]>
-[block]>
-
-==== Code ====[containsverbatim]
-
-\begin{pycode}
-def python_func(arg):
-    print 'arg was: ', arg
-
-python_func('Hello World!")
-\end{pycode}
-
-==== Code from file ====
-
-\pyfile{code/code.py}
-
-==== Example ====
-
-<[example]
-    This is an example
-[example]>
+* Explore full transformation to RVSDG
+* Implement Source/AST frontend for Numba
+* Find other potential uses...
 
 ==== Conclusion ====
 
@@ -431,3 +362,7 @@ python_func('Hello World!")
 ** \href{http://pygments.org/}{Pygments}
 ** \href{http://code.google.com/p/minted/}{Minted}
 ** \href{https://bitbucket.org/john2x/solarized-pygment}{Solarized theme for pygments}
+
+==== Questions? ====
+
+* Questions?
