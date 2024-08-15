@@ -154,8 +154,7 @@ In [4]: scfg.view()
 
 ==== SCFG ====
 
-* Branch regions are identified
-* No "restructuring required"
+* Branch regions are identified, no "restructuring required"
 
 <[center]
     <<<assets/images/branch-scfg.pdf, height=0.85\textheight>>>
@@ -246,7 +245,7 @@ In [4]: scfg.view()
 
 * Let's combine all three stages in this example
 * The loop has an "early exit"
-* This may be a problem for compilers, e.g, loop-unrolbecomel
+* This may be a problem for compilers, e.g, loop-unroll
 
 --.5cm--
 

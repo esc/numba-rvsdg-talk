@@ -108,10 +108,10 @@ engineer on the Numba project. His areas of contribution for the project so far
 have been social architecture, release management, mutable datastructures and
 recently, the compiler frontend.
 
-Past Events
-===========
+Events
+======
 
-* EuroScipy24
+* `EuroScipy24 <https://pretalx.com/euroscipy-2024/talk/U3EMKF/>`_
 
 Dependencies
 ============
