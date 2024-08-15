@@ -104,6 +104,8 @@
 
 * A simple API
 
+--.2cm--
+
 \begin{ipythonconsolecode}
 In [1]: from numba_rvsdg import AST2SCFG
 
@@ -316,7 +318,9 @@ In [4]: scfg.view()
 ==== Break and Continue ====[containsverbatim]
 
 * Both @break@ and @continue@ will be removed
-* (They are just syntactic sugar)
+** (They are just syntactic sugar)
+
+--.2cm--
 
 \pyfile{assets/source/break_and_continue.py}
 
