@@ -29,52 +29,30 @@
 * First step towards an source frontend for Numba
 * (Numba currently uses bytecode...)
 
-==== Definitions ====
-
-* AST ==>  Abstract Syntax Tree
-* IR ==> Intermediary Representation
-* CFG ==> Control Flow Graph
-* DAG ==> Directed Acyclic Graph
-* Closed CFG ==> CFG with eaxctly one entry and one exit node
-** Entry node ==> No incoming edges
-** Exit node ==> No outgoing edges
-* SCFG ==>  Structured Control Flow Graph
-* RVSDG ==> Regionalized Value State Dependence Graph
-
 ==  Pipeline ==
 
 ==== Outline ====
 
 \tableofcontents[currentsection]
 
-==== Pipeline ====
-
-* Ingest Python source
-* Convert to AST
-* Convert AST to CFG
-* Restructure to SCFG
-* Synthesize Python source code (implemented)
-* Convert to RVSDG (partially implemented)
-* Profit! (this is what copilot suggested)
-
 ==== Pipeline ====[containsverbatim]
 
+\begin{center}
+\begin{tikzpicture}[node distance=0.5cm, every node/.style={draw, rectangle, rounded corners, align=center}]
 
-\begin{tikzpicture}[node distance=1.0cm, every node/.style={draw, rectangle, rounded corners, align=center}]
+    \node (ingest) {Python source};
+    \node (ast) [below=of ingest] {Abstract Syntax Tree (AST)};
+    \node (cfg) [below=of ast] {Control Flow Graph (CFG)};
+    \node (scfg) [below=of cfg] {Structured CFG (SCFG)};
+    \node (synthesize) [below left=of scfg] {Synthesize Python \\ (implemented)};
+    \node (rvsdg) [below right=of scfg] {RVSDG \\ (partially implemented)};
 
-    \node (ingest) {Ingest Python source};
-    \node (ast) [below=of ingest] {Convert to AST};
-    \node (cfg) [below=of ast] {Convert AST to CFG};
-    \node (scfg) [below=of cfg] {Restructure to SCFG};
-    \node (synthesize) [below left=of scfg] {Synthesize Python source code \\ (implemented)};
-    \node (rvsdg) [below=of scfg] {Convert to RVSDG \\ (partially implemented)};
-    \node (profit) [below right=of scfg] {Profit! \\ (this is what copilot suggested)};
-
-    \foreach \i/\j in {ingest/ast, ast/cfg, cfg/scfg, scfg/synthesize, scfg/rvsdg, scfg/profit} {
+    \foreach \i/\j in {ingest/ast, ast/cfg, cfg/scfg, scfg/synthesize, scfg/rvsdg} {
         \draw[->] (\i.south) -- (\j.north);
     }
 
 \end{tikzpicture}
+\end{center}
 
 
 ==== SCFG Restructuring ====

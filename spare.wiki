@@ -1,0 +1,21 @@
+==== Definitions ====
+
+* AST ==>  Abstract Syntax Tree
+* IR ==> Intermediary Representation
+* CFG ==> Control Flow Graph
+* DAG ==> Directed Acyclic Graph
+* Closed CFG ==> CFG with eaxctly one entry and one exit node
+** Entry node ==> No incoming edges
+** Exit node ==> No outgoing edges
+* SCFG ==>  Structured Control Flow Graph
+* RVSDG ==> Regionalized Value State Dependence Graph
+
+==== Pipeline ====
+
+* Ingest Python source
+* Convert to AST
+* Convert AST to CFG
+* Restructure to SCFG
+* Synthesize Python source code (implemented)
+* Convert to RVSDG (partially implemented)
+* Profit! (this is what copilot suggested)
