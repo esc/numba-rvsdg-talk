@@ -18,6 +18,7 @@
 * Using a Structured Control Flow Graph (SCFG)
 * Regularize Python, identify branches and loops
 * Branch and loop regions are closed and clearly identified
+* Algorithm based on \href{https://dl.acm.org/doi/pdf/10.1145/2693261}{Bahmann2015}
 * Implemented in package \href{https://github.com/numba/numba-rvsdg}{numba-rvsdg}
 * Two main contributions:
 ** --> Application of an academic paper to Python source
@@ -54,22 +55,7 @@
 \end{tikzpicture}
 \end{center}
 
-
-==== SCFG Restructuring ====
-
-* CFG --> SCFG
-* Algorithm based on \href{https://dl.acm.org/doi/pdf/10.1145/2693261}{Bahmann2015}
-* Pre-processing for conversion to RVSDG
-* Useful in it's own right
-
-==== SCFG Restructuring ====
-
-* Three stages:
-** @CLOSE CFG@
-** @LOOP RESTRUCTURE@
-** @BRANCH RESTRUCTURE@
-
-==== SCFG Restructuring ====
+==== CFG --> SCFG ====
 
 * Identifies loop and branch regions
 * Loops become closed and tail controlled (do-while) with a single backedge
@@ -77,50 +63,6 @@
 ** one head region
 ** two or more branch regions
 ** one tail region
-
---.5cm--
-
-* Since backedges are contained within loop regions..
-* --> we can conceal the loop regions
-* --> to obtain a Directed Acyclic Graph (DAG)
-
-==== Plans ====
-
-* Use as source pre-processor for Numba
-* Use as IR for a source frontend for Numba
-* Other use-cases...?
-
-==== RVSDG? ====
-
-* The RVSDG is a data-flow centric IR
-* (CFG and SCFG are control-flow centric)
-* Has various nice properties
-* Partial implementation in Numba, not ready for presentation yet
-* Stay tuned!
-
-==== Example ====[containsverbatim]
-
-* A simple API
-
---.2cm--
-
-\begin{ipythonconsolecode}
-In [1]: from numba_rvsdg import AST2SCFG
-
-In [2]: def function():
-   ...:     return 1
-   ...:
-
-In [3]: scfg = AST2SCFG(function)
-
-In [4]: scfg.view()
-\end{ipythonconsolecode}
-
-==== CFG ====
-
-<[center]
-    <<<assets/images/function-cfg.pdf, height=0.85\textheight>>>
-[center]>
 
 == Examples ==
 
@@ -143,6 +85,40 @@ In [4]: scfg.view()
 <[center]
     \pyfile{assets/source/branch.py}
 [center]>
+
+==== AST ====[containsverbatim]
+
+\begin{minted}[fontsize=\tiny, xleftmargin=12pt]{python}
+        FunctionDef(
+            name='branch',
+            args=arguments(
+                posonlyargs=[],
+                args=[
+                    arg(
+                        arg='b',
+                        annotation=Name(id='int', ctx=Load()))],
+                kwonlyargs=[],
+                kw_defaults=[],
+                defaults=[]),
+            body=[
+                If(
+                    test=Name(id='b', ctx=Load()),
+                    body=[
+                        Assign(
+                            targets=[
+                                Name(id='r', ctx=Store())],
+                            value=Constant(value=1))],
+                    orelse=[
+                        Assign(
+                            targets=[
+                                Name(id='r', ctx=Store())],
+                            value=Constant(value=2))]),
+                Return(
+                    value=Name(id='r', ctx=Load()))],
+            decorator_list=[],
+            returns=Name(id='int', ctx=Load()),
+            type_params=[])],
+\end{minted}
 
 ==== CFG ====
 
