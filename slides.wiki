@@ -1,4 +1,4 @@
-== Prolog ==
+== Prologue ==
 
 ==== Outline ====
 
@@ -22,11 +22,11 @@
 * Implemented in package \href{https://github.com/numba/numba-rvsdg}{numba-rvsdg}
 * Two main contributions:
 ** --> Application of an academic paper to Python source
-** --> Solution to desugaring Python for-loops
+** --> Solution to de-sugaring Python for-loops
 
 ==== Motivation ====
 
-* Make code more ammeanable for Python compilers
+* Make code more amenable for Python compilers
 * First step towards an source frontend for Numba
 * (Numba currently uses bytecode...)
 
@@ -318,7 +318,7 @@
 
 \inputminted[firstline=22, fontsize=\scriptsize]{python}{assets/transformed/break_and_continue.py}
 
-== Epilog ==
+== Epilogue ==
 
 ==== Outline ====
 
